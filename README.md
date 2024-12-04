@@ -23,8 +23,8 @@ A beautiful, interactive roadmap component built with React, TypeScript, and Tai
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/interactive-roadmap.git
-cd interactive-roadmap
+git clone https://github.com/aytch4k/roadmap.git
+cd roadmap
 ```
 
 2. Install dependencies:
