@@ -2,7 +2,7 @@
 
 A beautiful, interactive roadmap component built with React, TypeScript, and Tailwind CSS. Features smooth scrolling animations, timeline navigation, and responsive design.
 
-![Roadmap Preview](https://github.com/aytch4k/roadmap/blob/main/demo/completed.PNG)
+![Roadmap Preview](https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426&h=600)
 
 ## Features
 
@@ -23,8 +23,8 @@ A beautiful, interactive roadmap component built with React, TypeScript, and Tai
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/aytch4k/roadmap.git
-cd roadmap
+git clone https://github.com/yourusername/interactive-roadmap.git
+cd interactive-roadmap
 ```
 
 2. Install dependencies:
@@ -47,14 +47,10 @@ Edit `src/components/RoadmapTimeline/roadmapData.tsx` to update the roadmap item
 export const roadmapData = [
   {
     title: 'Your Milestone',
+    date: 'Q1 2024',  // Format: 'Q[1-4] YYYY'
     description: 'Description of your milestone',
-    icon: <Code className="w-6 h-6" />,
+    icon: <YourIcon className="w-6 h-6" />,
     status: 'not-started' | 'in-progress' | 'completed'
-    date: {
-      year: 2024,
-      quarter: 4,
-      month: 'November'
-    }
   },
   // Add more items...
 ];

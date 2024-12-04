@@ -3,12 +3,29 @@ import { RoadmapCard } from './RoadmapCard';
 import { roadmapData } from './roadmapData';
 import { Header } from './Header';
 import { HorizontalTimeline } from './HorizontalTimeline';
-import { RoadmapItem } from './types';
 
 export const RoadmapTimeline: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastCardRef = useRef<HTMLDivElement>(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        const height = headerRef.current.offsetHeight;
+        setHeaderHeight(height);
+      }
+    };
+
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeight);
+    };
+  }, []);
 
   useEffect(() => {
     // Find the current or next upcoming roadmap item based on date
@@ -64,36 +81,42 @@ export const RoadmapTimeline: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative pt-64">
-      <Header />
-      <HorizontalTimeline 
-        activeIndex={activeIndex} 
-        onNodeClick={scrollToCard}
-      />
+    <div className="relative">
+      <div ref={headerRef}>
+        <Header />
+      </div>
 
-      {/* Cards Container */}
-      <div 
-        ref={containerRef}
-        className="pb-[100vh] px-4"
-      >
-        {roadmapData.map((item, index) => (
-          <div
-            key={index}
-            ref={index === roadmapData.length - 1 ? lastCardRef : null}
-            className="flex justify-center"
-          >
-            <RoadmapCard
-              {...item}
-              isNext={activeIndex !== null && index === activeIndex + 1}
-              isPrevious={activeIndex !== null && index === activeIndex - 1}
-              onInView={(isInView) => {
-                if (isInView) {
-                  setActiveIndex(index);
-                }
-              }}
-            />
-          </div>
-        ))}
+      {/* Dynamic spacing based on header height */}
+      <div style={{ paddingTop: `${headerHeight + 32}px` }}>
+        <HorizontalTimeline 
+          activeIndex={activeIndex} 
+          onNodeClick={scrollToCard}
+        />
+
+        {/* Cards Container */}
+        <div 
+          ref={containerRef}
+          className="pb-[100vh] px-4 pt-32"
+        >
+          {roadmapData.map((item, index) => (
+            <div
+              key={index}
+              ref={index === roadmapData.length - 1 ? lastCardRef : null}
+              className="flex justify-center"
+            >
+              <RoadmapCard
+                {...item}
+                isNext={activeIndex !== null && index === activeIndex + 1}
+                isPrevious={activeIndex !== null && index === activeIndex - 1}
+                onInView={(isInView) => {
+                  if (isInView) {
+                    setActiveIndex(index);
+                  }
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
